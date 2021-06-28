@@ -1,0 +1,29 @@
+{
+  "name": "autot",
+  "version": "0.0.1",
+  "main": "app.ts",
+  "author": "-",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "got": "^11.8.2",
+    "jsdom": "^16.6.0",
+    "puppeteer": "^10.0.0",
+    "ts-node": "^10.0.0",
+    "yargs": "^17.0.1"
+  },
+  "scripts": {
+    "start": "ts-node app.ts",
+    "lint": "eslint ./app.ts --fix",
+    "prettier": "prettier"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^16.2.11",
+    "@types/puppeteer": "^5.4.3",
+    "@types/yargs": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
+    "eslint": "^7.29.0",
+    "prettier": "^2.3.2"
+  }
+}
