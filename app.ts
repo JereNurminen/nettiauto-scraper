@@ -5,8 +5,6 @@ import * as p from "puppeteer";
 type CarInfo = Partial<{
   url: string;
   title: string;
-  make: string;
-  model: string;
   year: string;
   km: string;
   tax: string;
@@ -97,6 +95,28 @@ const parseUrlFile = async (path: string) => {
   return urls.split("\n").filter((line) => line.length);
 };
 
+const generateCSV = (cars: CarInfo[]) => {
+  const headings: { [Property in keyof CarInfo]: string } = {
+    title: "",
+    year: "Vuosimalli",
+    km: "Mittarilukema",
+    location: "Sijainti",
+    price: "Hinta",
+    tax: "Vero",
+    consumption: "Kulutus",
+    fuelType: "Polttoaine",
+    url: "URL",
+  };
+
+  const rows = (Object.keys(headings) as Array<keyof typeof headings>).map(
+    (key) => {
+      return [headings[key], ...cars.map((car) => car[key] || "")];
+    }
+  );
+  const csv = rows.map((row) => row.map((x) => `"${x}"`).join(",")).join("\n");
+  return csv;
+};
+
 const main = async (args: string[]) => {
   const argv = await yargs(process.argv.slice(2))
     .option("d", {
@@ -128,6 +148,7 @@ const main = async (args: string[]) => {
   );
   await browser.close();
   cars.map(logger);
+  process.stdout.write(generateCSV(cars));
 };
 
 main(process.argv).catch((e) => process.stderr.write(e));
