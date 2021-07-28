@@ -58,7 +58,7 @@ const parseNettiauto = async (url: string): Promise<CarInfo> => {
       ".price_sec span span span",
       (text) => text.textContent
     );
-    const year = await findInTable("Vuosimalli");
+    const year = /^\d{4}/.exec(await findInTable("Vuosimalli"));
     const km = await findInTable("Mittarilukema");
     const location = await findInTable("Sijainti");
     const fuelType = /Bensiini|Diesel/.exec(await findInTable("Moottori"));
