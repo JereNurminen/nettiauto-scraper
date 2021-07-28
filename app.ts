@@ -12,6 +12,7 @@ type CarInfo = Partial<{
   location: string;
   price: string;
   consumption: string;
+  fuelType: string;
 }>;
 
 let browser: undefined | p.Browser
@@ -61,6 +62,7 @@ const parseNettiauto = async (url: string): Promise<CarInfo> => {
         const year = await findInTable('Vuosimalli')
         const km = await findInTable('Mittarilukema')
         const location = await findInTable('Sijainti')
+        const fuelType = /Bensiini|Diesel/.exec(await findInTable('Moottori'))
         const tax = await page.$eval(
             '#acc_section',
             (text) => /(Ajoneuvovero: )(\d{1,4})/gi.exec(text.textContent)?.[2]
@@ -79,6 +81,7 @@ const parseNettiauto = async (url: string): Promise<CarInfo> => {
             tax: tax?.toString(),
             price: price?.toString(),
             consumption: consumption?.toString(),
+            fuelType: fuelType?.toString()
         }
     } catch (e) {
         logger(`${url} failed to scrape`)
